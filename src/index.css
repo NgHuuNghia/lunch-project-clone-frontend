@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* antd */
+.notiAnimation {
+  animation-name: notiAnimate;
+  animation-duration: 2s;
+  animation-delay: 0.5s;
+} 
+@keyframes notiAnimate {
+  from {  
+    left: 0px;
+  }
+  to {
+    left: 500px;
+  }
+}
