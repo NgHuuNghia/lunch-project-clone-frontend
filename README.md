@@ -1,7 +1,6 @@
 ## future
--- register page
--- validate
 -- connect backend
+-- validate
 -- home page
 
 

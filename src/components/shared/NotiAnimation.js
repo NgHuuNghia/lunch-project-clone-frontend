@@ -10,7 +10,8 @@ export default function NotiAnimation (type,description, message, messageColor, 
         duration: 2.5,  
         placement: placement,
         style: {
-          borderLeft: `5px solid ${messageColor}`
+          borderLeft: `5px solid ${messageColor}`,
+          height: '70px',
         }
       });
 }
