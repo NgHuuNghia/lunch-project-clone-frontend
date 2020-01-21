@@ -2,26 +2,25 @@ import React, { useState, Fragment } from 'react';
 import { Form, Icon, Input, Button, Row, Col } from 'antd';
 import backgound from '../../images/background/bg-lunch.jpg';
 import NotiAnimation  from '../../components/shared/NotiAnimation';
-import {  Link } from 'react-router-dom';
-const Login = (props) => {
-	const users = JSON.parse(window.localStorage.getItem('users'));
+import { Link } from 'react-router-dom';
+const Register = (props) => {
+    const users = JSON.parse(window.localStorage.getItem('users')) ? JSON.parse(window.localStorage.getItem('users')) : [];
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        var isUser = users && users.some(user => username === user.username && password === user.password);
+        var isAuth = Array.isArray(users) && users.length ?  users.some(user => username === user.username) : false;
 
-        if(isUser) {
-            window.localStorage.setItem('account',JSON.stringify({username: username, password: password}));
-            props.setToken(window.localStorage.getItem('account'));
-            props.setIsAuth(true);
-            // NotiAnimation('success','OK','Đăng nhập thành công','green','bottomRight');
+        if(isAuth) {
+            NotiAnimation('error','Opps','Tài khoản này đã được sử dụng','red','bottomRight');
         }
         else {
-            NotiAnimation('error','Opps','Sai tài khoản hoặc mật khẩu','red','bottomRight');
-
+            var user = { username: username, password: password};
+            users.push(user);
+            window.localStorage.setItem('users',JSON.stringify(users));
+            NotiAnimation('success',`Tài khoản : ${username}`,'Đăng Ký thành công','green','bottomRight');
         }
 
         
@@ -60,9 +59,9 @@ const Login = (props) => {
                         <Form.Item>
                         
                             <Button style={{width: '320px'}} type="primary" htmlType="submit" className="login-form-button">
-                                Log in
+                                Register
           </Button>
-          Or <Link to="/register">register</Link>
+          Or <Link to="/login">login</Link>
                         </Form.Item>
                     </Form>
                 </Col>
@@ -74,4 +73,4 @@ const Login = (props) => {
     )
 }
 
-export default Login;
+export default Register;

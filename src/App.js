@@ -32,17 +32,14 @@ const client = new ApolloClient({
   link: authLink.concat(link)
 });
 
-const users = JSON.parse(window.localStorage.getItem('users'));
-var token = window.localStorage.getItem('account') ? window.localStorage.getItem('account') : '';
-var account = JSON.parse(token);
-var isAuth = users.some(user => account.username === user.username && account.password === user.password);
+
 
 
 const App = ()   =>  {
 
     return (
       <ApolloProvider client={client}>
-          <Root isAuth= {isAuth}/>
+          <Root />
       </ApolloProvider>
     )
 
