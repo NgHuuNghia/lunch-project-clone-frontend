@@ -20,7 +20,7 @@ function Root(props) {
 				<Switch>
 					<Route exact key='home' path='/' component={() => { return isAuth ? (<Home setIsAuth={setIsAuth} />) : (<Redirect to="/login" />) }} />
 					<Route exact key='login' path='/login' component={() => { return !isAuth ? (<Login setToken={setToken} setIsAuth={setIsAuth} />) : (<Redirect to="/" />) }} />
-					<Route exact key='register' path='/register' component= {Register} />
+					<Route exact key='register' path='/register' component= {() => { return !isAuth ?  (<Register/>)  : (<Redirect to="/" />) }} />
 				</Switch>
 			</BrowserRouter>
 		</Suspense>
