@@ -1,8 +1,8 @@
-import React, { useState, Fragment } from 'react';
-import { Form, Icon, Input, Button, Row, Col } from 'antd';
-import backgound from '../../images/background/bg-lunch.jpg';
-import NotiAnimation from '../../components/shared/NotiAnimation';
+import { Button, Col, Form, Icon, Input, Row } from 'antd';
+import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
+import background from '../../assets/images/bg-lunch.jpg';
+import NotiAnimation from '../../components/shared/NotiAnimation';
 const Login = (props) => {
     const users = JSON.parse(window.localStorage.getItem('users'));
     const [username, setUsername] = useState('');
@@ -29,7 +29,7 @@ const Login = (props) => {
 
     return (
         <Fragment>
-            <Row style={{ background: `url(${backgound})`, height: '100vh' }} >
+            <Row style={{ background: `url(${background})`, height: '100vh' }} >
                 <Col xs={{ span: 24, offset: 0 }}
                     sm={{ span: 16, offset: 8 }}
                     md={{ span: 14, offset: 10 }}
@@ -68,7 +68,7 @@ const Login = (props) => {
                                 Log in
           </Button>
                             <div className="link-register">
-                                Or <Link to="/register">register</Link>``
+                                Or <Link to="/register">register</Link>
                             </div>
                         </Form.Item>
                     </Form>

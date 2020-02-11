@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -26,3 +27,22 @@ code {
     left: 500px;
   }
 }
+/* header */
+.header-item:hover {
+  border-bottom: 2px solid transparent !important;
+  color: inherit !important;
+}
+.ant-menu-item.header-item.ant-menu-item-selected {
+  border-bottom: 2px solid transparent !important;
+  color: inherit !important;
+}
+/* menu-bar */
+.ant-menu-item.menu-bar-item.ant-menu-item-active:hover {
+  color: rgba(255, 255, 255, 1);
+  border-color: rgba(255, 255, 255, 1);
+}
+.ant-menu-item.menu-bar-item.ant-menu-item-selected {
+  color: rgba(255, 255, 255, 1);
+  border-color: rgba(255, 255, 255, 1);
+}
+
