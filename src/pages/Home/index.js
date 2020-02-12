@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { Menu, Icon, Button } from 'antd'
+import { Icon, Button, Tabs } from 'antd'
 import PageHeader from '../PageHeader/index';
 import bgHome from '../../assets/images/background1.png'
 import avt from '../../assets/images/avatar.png'
 import { Link } from 'react-router-dom'
-import { Link as LinkScroll } from 'react-scroll'
+const { TabPane } = Tabs
 
 const Home = (props) => {
 
@@ -29,7 +29,7 @@ const Home = (props) => {
    }
 
    return (
-      <div className="home-page" style={{ overflowX: 'hidden', height: '100vh', backgroundImage: `url(${bgHome})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundAttachment: 'fixed', backgroundSize: 'cover' }}>
+      <div className="home-page" style={{ overflow: 'hidden', height: '100vh', backgroundImage: `url(${bgHome})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundAttachment: 'fixed', backgroundSize: 'cover' }}>
          <PageHeader toggleWrapper={toggleWrapper} />
          <div className="menu-wrap" style={styleWrap}>
             <div className="wrap-main" style={{ display: 'grid', gridTemplateColumns: 'auto auto', alignItems: 'center',justifyContent: 'flex-start', margin: '30px 50px 0' }}>
@@ -41,7 +41,7 @@ const Home = (props) => {
                   <span style={{ fontFamily: 'Nunito Sans', fontWeight: 700, fontSize: '18px', lineHeight: '25px', color: '#fff' }}>
                      NGUYỄN HỮU NGHĨA
                   </span>
-                  <Link  onClick= {logout} style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <Link to="#" onClick= {logout} style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                      <Icon  type="logout" /> Đăng xuất
                   </Link>
                </div>
@@ -50,31 +50,24 @@ const Home = (props) => {
                <Button style={{backgroundColor: 'darkcyan', color: 'white', border:'none', margin: '20px 0 0 50px'}}>Đổi mật khẩu</Button>
             </div>
          </div>
-         <div className="main" style={styleMain}>
-            <Menu mode="horizontal" defaultSelectedKeys={['lun']} style={{ background: 'transparent', fontSize: 16, color: 'rgba(255, 255, 255, 0.7)' }}>
-               <Menu.Item key="lun" className="menu-bar-item">
-                  <LinkScroll activeClass="active" to="lunScroll" spy={true} smooth={true} offset={-70} duration={500}> 
-                  App đặt cơm
-                  </LinkScroll>
-               </Menu.Item>
-               <Menu.Item key='hrm' className='menu-bar-item'>
-               <LinkScroll activeClass="active" to="hrmScroll" spy={true} smooth={true} offset={-70} duration={500}> 
-                  App nhân sự
-                  </LinkScroll>
-               </Menu.Item>
-            </Menu>
-            <div>
-               <div className="section-main" style={{overflow: 'auto', height:'100%'}}>
-                  <div className="lun-section" id="lunScroll" style={{height:"400px",backgroundColor:'red'}}>
-                     lun
+         <main className="main" style={styleMain}>
+            <Tabs defaultActiveKey="1" style={{background: 'transparent', fontSize: 16, color: 'rgba(255, 255, 255, 0.7)'}}>
+               <TabPane  tab="App đặt cơm" key="lubTab">
+                  <span>App đặt cơm</span>
+                  <div className="lunch-box" style={{  width:'180px',height:'150px',backgroundColor:'white', margin:'10px 0'}}>
+                     <span style={{color:'black', margin:'15px', display:'inline-block'}}>Đặt món</span>
+                     <Icon style={{color:'#2D9CDB', fontSize: '40px', margin: '30px 0 0 120px'}} type="shopping-cart" />
                   </div>
-                  <div className="hrm-section" id="hrmScroll" style={{height:"400px",backgroundColor:'yellow'}}>
-                     hrm
+               </TabPane>
+               <TabPane tab="App nhân sự" key="hrmTab">
+               <span>App nhân sự</span>
+                  <div className="hrm-box" style={{width:'180px',height:'150px',backgroundColor:'white', margin:'10px 0'}}>
+                  <span style={{color:'black', margin:'15px', display:'inline-block'}}>HRM</span>
+                     <Icon style={{color:'#2D9CDB', fontSize: '40px', margin: '30px 0 0 120px'}} type="project" />
                   </div>
-               </div>
-            </div>
-            
-         </div>
+               </TabPane>
+            </Tabs>
+         </main>
       </div>
    )
 }
