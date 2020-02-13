@@ -4,18 +4,17 @@ import PageHeader from '../PageHeader/index';
 import bgHome from '../../assets/images/background1.png'
 import avt from '../../assets/images/avatar.png'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 const { TabPane } = Tabs
 
 const Home = (props) => {
 
+   const dispatch = useDispatch()
    const [isOpenWrapMenu, SetisOpenWrapMenu] = useState(false)
    const [styleMain, setStyleMain] = useState({ transition: 'all 0.5s ease 0s', margin: '10px 50px 0px 50px' })
    const [styleWrap, setStyleWrap] = useState({ position: 'fixed', right: 'inherit', zIndex: 1100, width: '500px', height: '100%', transition: 'all 0.5s ease 0s', transform: 'translate3d(-100%, 0px, 0px)' })
    
-   const logout = () => {
-        window.localStorage.removeItem('account');
-        props.setIsAuth(false);
-    }
+
    const toggleWrapper = () => {
       SetisOpenWrapMenu(!isOpenWrapMenu)
       if (isOpenWrapMenu) {
@@ -41,7 +40,10 @@ const Home = (props) => {
                   <span style={{ fontFamily: 'Nunito Sans', fontWeight: 700, fontSize: '18px', lineHeight: '25px', color: '#fff' }}>
                      NGUYỄN HỮU NGHĨA
                   </span>
-                  <Link to="#" onClick= {logout} style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+                  <Link to="#" onClick= {() => {
+					      window.localStorage.removeItem('token');
+                     dispatch({ type: 'LOGOUT' })
+                     }} style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
                      <Icon  type="logout" /> Đăng xuất
                   </Link>
                </div>
