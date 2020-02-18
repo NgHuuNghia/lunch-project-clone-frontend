@@ -23,15 +23,15 @@ const FromLogin = props => {
                         input
                     }
                 })
-                .then(res => {
-                    if (res.data.login) {
-                        window.localStorage.setItem('token', `Bearer ${res.data.login.token}`)
-                        dispatch({ type: 'AUTHENTICATE' })
-                    }
-                })
-                .catch(err1 => {
-                    NotiAnimation('error', 'login fail', err1.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
-                })
+                    .then(res => {
+                        if (res.data.login) {
+                            window.localStorage.setItem('token', `Bearer ${res.data.login.token}`)
+                            dispatch({ type: 'AUTHENTICATE' })
+                        }
+                    })
+                    .catch(err1 => {
+                        NotiAnimation('error', 'login fail', err1.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
+                    })
             } else {
                 NotiAnimation('error', 'login fail', 'Vui lòng điền tài khoản và mật khẩu', 'red', 'bottomRight');
             }
