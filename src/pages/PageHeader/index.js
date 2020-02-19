@@ -10,6 +10,11 @@ const PageHeader = (props) => {
 
     const [locale, setLocale] = useState('VN');
 
+    const changeSite = (value) => {
+        props.setCurrentSite(value)
+
+    }
+    
     function changeLocale({ key }) {
         if (key === 'VN') {
             setLocale('VN')
@@ -50,12 +55,13 @@ const PageHeader = (props) => {
                 <Menu.Item key="location-combobox" className="menu-location header-item" >
                     <Select
                         className='location-combobox'
-                        defaultValue="SG"
+                        defaultValue={props.site}
                         showSearch
                         optionFilterProp="children"
                         filterOption={(input, option) =>
                             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
+                        onChange = {changeSite}
                     >
                         <Option value="SG">Sài Gòn</Option>
                         <Option value="NT">Nha Trang</Option>
