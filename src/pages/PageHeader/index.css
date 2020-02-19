@@ -1,8 +1,21 @@
+/* ALL */
+.header-item:hover {
+    border-bottom: 2px solid transparent !important;
+    color: inherit !important;
+}
+
+.ant-menu-item.header-item.ant-menu-item-selected {
+    border-bottom: 2px solid transparent !important;
+    color: inherit !important;
+}
+
+
 /* 
   ##Device = Desktops
   ##Screen = 1281px to higher resolution desktops
 */
 @media (min-width: 1281px) {
+
     .menu-location {
         margin-left: 10%;
 
@@ -58,14 +71,17 @@
     .location-combobox {
         width: 170px;
     }
+
     li.ant-menu-item.logo-header.header-item {
         display: none;
     }
+
     li.ant-menu-item.back-button.header-item {
         display: none;
     }
+
     li.ant-menu-item.home-button.header-item {
         display: none;
     }
-    
+
 }

@@ -53,15 +53,15 @@ const Home = (props) => {
             </div>
          </div>
          <main className="main" style={styleMain}>
-            <Tabs defaultActiveKey="1" style={{background: 'transparent', fontSize: 16, color: 'rgba(255, 255, 255, 0.7)'}}>
-               <TabPane  tab="App đặt cơm" key="lubTab">
+            <Tabs defaultActiveKey="1" className="tab-main" style={{background: 'transparent', fontSize: 16, color: 'rgba(255, 255, 255, 0.7)'}}>
+               <TabPane  tab="App đặt cơm" key="lubTab" className="tab-lun">
                   <span>App đặt cơm</span>
                   <div className="lunch-box" style={{  width:'180px',height:'150px',backgroundColor:'white', margin:'10px 0'}}>
                      <span style={{color:'black', margin:'15px', display:'inline-block'}}>Đặt món</span>
                      <Icon style={{color:'#2D9CDB', fontSize: '40px', margin: '30px 0 0 120px'}} type="shopping-cart" />
                   </div>
                </TabPane>
-               <TabPane tab="App nhân sự" key="hrmTab">
+               <TabPane tab="App nhân sự" key="hrmTab" className="tab-hrm">
                <span>App nhân sự</span>
                   <div className="hrm-box" style={{width:'180px',height:'150px',backgroundColor:'white', margin:'10px 0'}}>
                   <span style={{color:'black', margin:'15px', display:'inline-block'}}>HRM</span>

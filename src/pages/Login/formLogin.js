@@ -58,7 +58,7 @@ const FromLogin = props => {
                         style={{
                             float: "right",
                             width: "100%",
-                            padding: "56px 40px",
+                            paddingTop: "10%",
                             textAlign: "center",
                             height: "100vh"
                         }}
@@ -119,7 +119,7 @@ const FromLogin = props => {
 };
 
 const USER_LOGIN = gql`
-    mutation($input: UserInput!) {
+    mutation($input: LoginUserInput!) {
         login(input: $input) {
             token
         }

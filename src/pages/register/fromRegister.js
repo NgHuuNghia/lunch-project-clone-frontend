@@ -1,36 +1,40 @@
-import { Button, Col, Form, Icon, Input, Row } from "antd";
+import { Button, Col, Form, Icon, Input, Row, Select } from "antd";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { graphql } from 'react-apollo'
 import background from "../../assets/images/bg-lunch.jpg";
 import NotiAnimation from "../../components/shared/NotiAnimation";
 import gql from 'graphql-tag'
+const { Option } = Select;
 const FormRegister = props => {
 
     const handleSubmit = e => {
         e.preventDefault();
         props.form.validateFields((err, values) => {
             if (!err) {
-                const { username, password } = values
+                const { username, password, fullname, site } = values
+                console.log(values)
                 const input = {
                     username,
-                    password
+                    password,
+                    fullname,
+                    site
                 }
                 props.registerUser({
                     variables: {
                         input
                     }
                 })
-                .then(res => {
-                    if (res.data.register) {
-                        NotiAnimation('success', 'register success', `Đăng ký thành công tài khoản : ${res.data.register.username}`, 'green', 'bottomRight');
-                    }
-                })
-                .catch(err1 => {
-                    NotiAnimation('error', 'register fail', err1.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
-                })
+                    .then(res => {
+                        if (res.data.register) {
+                            NotiAnimation('success', 'register success', `Đăng ký thành công tài khoản : ${res.data.register.username}`, 'green', 'bottomRight');
+                        }
+                    })
+                    .catch(err1 => {
+                        NotiAnimation('error', 'register fail', err1.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
+                    })
             } else {
-                NotiAnimation('error', 'register fail', 'Vui lòng điền tài khoản và mật khẩu', 'red', 'bottomRight');
+                NotiAnimation('error', 'register fail', 'Vui lòng điền đầy đủ thông tin', 'red', 'bottomRight');
             }
         })
     };
@@ -55,7 +59,7 @@ const FormRegister = props => {
                         style={{
                             float: "right",
                             width: "100%",
-                            padding: "56px 40px",
+                            paddingTop: "10%",
                             textAlign: "center",
                             height: "100vh"
                         }}
@@ -63,6 +67,24 @@ const FormRegister = props => {
                         <div style={{ textAlign: "center" }} className="logo">
                             <h1>LUNCH APP</h1>
                         </div>
+                        <Form.Item>
+                            {getFieldDecorator("fullname", {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Please input your fullname!'
+                                    }
+                                ]
+                            })
+                                (<Input
+                                    prefix={
+                                        <Icon type="profile" style={{ color: "rgba(0,0,0,.25)" }} />
+                                    }
+                                    placeholder="Fullname"
+                                    style={{ width: "320px" }}
+                                />)
+                            }
+                        </Form.Item>
                         <Form.Item>
                             {getFieldDecorator("username", {
                                 rules: [
@@ -96,6 +118,29 @@ const FormRegister = props => {
                             }
                         </Form.Item>
                         <Form.Item>
+                            {getFieldDecorator("site", {
+                                initialValue: "SG",
+                                rules: [
+                                    {
+                                        required: true,
+                                    }
+                                ]
+                            })
+                                (<Select
+                                    style={{ width: '80%' }}
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) =>
+                                        option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                                    }
+                                >
+                                    <Option value="SG">Sài Gòn</Option>
+                                    <Option value="NT">Nha Trang</Option>
+                                    <Option value="DN">Đà Nẵng</Option>
+                                </Select>)
+                            }
+
+                        </Form.Item>
+                        <Form.Item>
                             <Button
                                 style={{ width: "320px" }}
                                 type="primary"
@@ -116,12 +161,14 @@ const FormRegister = props => {
 };
 
 const USER_REGISTER = gql`
-    mutation($input: UserInput!) {
+    mutation($input: CreateUserInput!) {
         register(input: $input) {
             _id
             username
             password
-            userPermissions
+            fullname
+            site
+            role
         }
     }
 `

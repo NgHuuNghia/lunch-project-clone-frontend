@@ -27,15 +27,4 @@ code {
     left: 500px;
   }
 }
-/* page header */
-.header-item:hover {
-  border-bottom: 2px solid transparent !important;
-  color: inherit !important;
-}
-.ant-menu-item.header-item.ant-menu-item-selected {
-  border-bottom: 2px solid transparent !important;
-  color: inherit !important;
-}
-/* home page */
-
 

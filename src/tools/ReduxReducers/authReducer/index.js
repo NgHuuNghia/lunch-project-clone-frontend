@@ -1,5 +1,5 @@
 const initialState = {
-	isAuth: !!window.localStorage.getItem('token'),
+	isAuth: !!window.localStorage.getItem('token' ),
 }
 
 export default function authReducer(state = initialState, action) {
