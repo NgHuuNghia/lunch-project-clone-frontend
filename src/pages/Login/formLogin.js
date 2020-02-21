@@ -33,7 +33,7 @@ const FromLogin = props => {
                         NotiAnimation('error', 'login fail', err1.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
                     })
             } else {
-                NotiAnimation('error', 'login fail', 'Vui lòng điền tài khoản và mật khẩu', 'red', 'bottomRight');
+                // NotiAnimation('error', 'login fail', 'Vui lòng điền tài khoản và mật khẩu', 'red', 'bottomRight');
             }
         })
     };

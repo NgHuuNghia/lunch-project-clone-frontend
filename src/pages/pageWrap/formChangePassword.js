@@ -18,8 +18,12 @@ const FormChangePassword = props => {
     }
 
     const validateToNextPassword = (rule, value, callback) => {
+        
         if(value ===  props.form.getFieldValue('currentpassword')){
-            callback('Mật khẩu trùng với mật khẩu hiện tại');
+            callback('Mật khẩu trùng với mật khẩu hiện tại.');
+        }
+        else if (value.length <3 || value.length >20) {
+            callback('Mật khẩu chỉ chứa từ 3 đến 20 ký tự.');
         }
         else if (value) {
             props.form.validateFields(['confirmpassword'], { force: true });
@@ -77,7 +81,7 @@ const FormChangePassword = props => {
                     rules: [
                         {
                             required: true,
-                            message: 'Vui lòng điền mật khẩu hiện tại'
+                            message: 'Vui lòng điền mật khẩu hiện tại.'
                         }
                     ]
                 })
@@ -89,7 +93,7 @@ const FormChangePassword = props => {
                     rules: [
                         {
                             required: true,
-                            message: "Vui lòng điền mật khẩu mới",
+                            message: "Vui lòng điền mật khẩu mới.",
                         },
                         {
                             validator: validateToNextPassword
@@ -105,7 +109,7 @@ const FormChangePassword = props => {
                     rules: [
                         {
                             required: true,
-                            message: "Vui lòng điền xác nhận mật khẩu",
+                            message: "Vui lòng điền xác nhận mật khẩu.",
                         },
                         {
                             validator: compareToFirstPassword

@@ -6,7 +6,7 @@ import { getMainDefinition } from 'apollo-utilities'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 
 const httpLink = new HttpLink({
-  uri: process.env.REACT_APP_GRAPHQL_URN
+  uri: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_GRAPHQL_URN : process.env.REACT_APP_GRAPHQL_URN_DEVELOPER
 })
 
 const authLink = setContext((_, { headers }) => ({

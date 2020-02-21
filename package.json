@@ -30,8 +30,8 @@
     "subscriptions-transport-ws": "^0.9.16"
   },
   "scripts": {
-    "start": "serve -s build",
-    "start:dev": "react-scripts start",
+    "start": "NODE_ENV=production serve -s build",
+    "start:dev": "NODE_ENV=development react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

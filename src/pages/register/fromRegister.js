@@ -34,7 +34,7 @@ const FormRegister = props => {
                         NotiAnimation('error', 'register fail', err1.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
                     })
             } else {
-                NotiAnimation('error', 'register fail', 'Vui lòng điền đầy đủ thông tin', 'red', 'bottomRight');
+                // NotiAnimation('error', 'register fail', 'Vui lòng điền đầy đủ thông tin', 'red', 'bottomRight');
             }
         })
     };
