@@ -3,11 +3,12 @@ import { useQuery } from '@apollo/react-hooks'
 import { Icon, Tabs } from 'antd'
 import PageHeader from '../PageHeader/index';
 import bgHome from '../../assets/images/background1.png'
-import { Redirect } from 'react-router-dom'
 import { useDispatch, useStore } from 'react-redux'
 import gql from 'graphql-tag'
 import Loading from '../../components/shared/loading'
 import WrapMenu from '../pageWrap/index'
+import Login from '../Login/index'
+import { Route } from 'react-router-dom'
 import './index.css'
 const { TabPane } = Tabs
 
@@ -37,9 +38,10 @@ const Home = (props) => {
   
 
    if (error) {
-      return (<Redirect to="/login" />)
+      dispatch({ type: 'LOGOUT'});
+      return <Route path="/login" component={Login} />
    }
-   if (loading) {
+   else if (loading) {
       return (<Loading />)
    }
    else {
