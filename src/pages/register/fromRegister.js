@@ -132,7 +132,7 @@ const FormRegister = props => {
                             </Form.Item>
                             <Form.Item>
                                 {getFieldDecorator("siteId", {
-                                    initialValue: `${sites[0].name}`,
+                                    initialValue: `${sites[0]._id}`,
                                     rules: [
                                         {
                                             required: true,
