@@ -5,21 +5,26 @@ import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 
 const Site = (props) => {
     const columnDefs = [
-        { headerName: "Make", field: "make" },
-        { headerName: "Model", field: "model" },
-        { headerName: "Price", field: "price" }]
+        { headerName: "STT", field: "id", checkboxSelection: true, width: 80 },
+        { headerName:  "Site Name", field: "siteName", resizable: true, width: 500, minWidth:100,maxWidth:600 },
+        { headerName: "Action", field: "action",  width: 700, minWidth:100}]
     const rowData = [
-        { make: "Toyota", model: "Celica", price: 35000 },
-        { make: "Ford", model: "Mondeo", price: 32000 },
-        { make: "Porsche", model: "Boxter", price: 72000 }]
+        { siteName: "Sài Gòn", action: "Xóa,Sửa"},
+        { siteName: "Nha Trang", action: "Xóa,Sửa"},
+        { siteName: "Đà Nẵng", action: "Xóa,Sửa"}]
+       
     return (
-        <div className="ag-theme-balham" style={{ height: '200px', width: '600px' }}>
-            <AgGridReact
-                columnDefs={columnDefs}
-                rowData={rowData}>
-            </AgGridReact>
+        <div style={{backgroundColor: "#FFF", height:'100%'}}>
+            <div className="title-header" style={{ backgroundColor: "#F7F7F8", width: '100vw', height: '40px', boxShadow:'0 4px 2px -2px #D4D4D4', padding:'10px 50px', fontWeight:'bold'}}> Manage Sites </div>
+            <div className="ag-theme-balham" style={{ height: '500px', width: '93%' , margin: '40px 50px' }}>
+                <AgGridReact 
+                    columnDefs={columnDefs}
+                    rowData={rowData}
+                >
+                </AgGridReact>
+            </div>
         </div>
-    )
+        )
 }
-
+            
 export default Site

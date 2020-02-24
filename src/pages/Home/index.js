@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom'
 import './index.css'
 const { TabPane } = Tabs
 
+
 const Home = (props) => {
    const store = useStore()
    const AdminLunPermision = [{ text: "Manage Menu", icon: "unordered-list" }, { text: "Manage Oder", icon: "shopping-cart" }, { text: "Manage User", icon: "user" }, { text: "Report", icon: "file-text" }, { text: "History", icon: "history" }]
    const SuperAdminLunPermision = [{ text: "Manage Site", icon: "environment" }]
-   
+
 
    const functionLunchUser = props.currentSite === store.getState().currentUser.siteId && store.getState().currentUser.role === 'USER' ? (
       <div className="lunch-box" style={{ width: '180px', height: '150px', backgroundColor: 'white', margin: '10px 0' }}>
@@ -48,22 +49,23 @@ const Home = (props) => {
       })
       : null
    return (
-            <Tabs defaultActiveKey="1" className="tab-main" style={{ background: 'transparent', fontSize: 16, color: 'rgba(255, 255, 255, 0.7)' }}>
-               <TabPane tab="App đặt cơm" key="lubTab" className="tab-lun">
-                  <span>App đặt cơm</span>
-                  <div className="function-lun-main-box">
-                     {functionLunchUser}
-                     {functionLunchAdmin}
-                     {functionLunchSuperAdmin}
-                  </div>
-               </TabPane>
-               <TabPane tab="App nhân sự" key="hrmTab" className="tab-hrm">
-                  <span>App nhân sự</span>
-                  <div className="function-hrm-main-box">
-                     {functionHrmUser}
-                  </div>
-               </TabPane>
-            </Tabs>
+         <Tabs defaultActiveKey="1" className="tab-main" style={{ background: 'transparent', fontSize: 16, color: 'rgba(255, 255, 255, 0.7)', margin: '10px 50px 0px 50px' }}>
+            <TabPane tab="App đặt cơm" key="lubTab" className="tab-lun">
+               <span>App đặt cơm</span>
+               <div className="function-lun-main-box">
+                  {functionLunchUser}
+                  {functionLunchAdmin}
+                  {functionLunchSuperAdmin}
+               </div>
+            </TabPane>
+            <TabPane tab="App nhân sự" key="hrmTab" className="tab-hrm">
+               <span>App nhân sự</span>
+               <div className="function-hrm-main-box">
+                  {functionHrmUser}
+               </div>
+            </TabPane>
+         </Tabs>
+
    )
 }
 

@@ -39,7 +39,7 @@ function Root(props) {
 			<BrowserRouter>
 				<Switch>
 					<DashboardLayoutRoute exact key='home' path="/" component={  !isAuth ? (<Redirect to="/login" />) : Home } currentSite={currentSite} setCurrentSite={setCurrentSite} />
-					<DashboardLayoutRoute exact key='site' path="/site" component={  !isAuth || store.getState().currentUser.role !== 'SUPERADMIN' ? (<Redirect to="/" />) : Site } currentSite={currentSite} setCurrentSite={setCurrentSite}/>
+					<DashboardLayoutRoute exact key='site' path="/site" component={  !isAuth || store.getState().currentUser.role !== 'SUPERADMIN' ? (<Redirect to="/" />) : Site }  setCurrentSite={setCurrentSite}/>
 					<Route exact key='login' path='/login' component={() => { return !isAuth ? (<Login />) : (<Redirect to="/" />) }} />
 					<Route exact key='register' path='/register' component={() => { return !isAuth ? (<Register />) : (<Redirect to="/" />) }} />		
 					<Redirect to="/" />

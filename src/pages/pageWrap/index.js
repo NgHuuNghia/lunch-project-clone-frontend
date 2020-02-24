@@ -4,6 +4,7 @@ import avt from '../../assets/images/avatar.png'
 import { Link } from 'react-router-dom'
 import { useDispatch, useStore } from 'react-redux'
 import FormChangePassword from './formChangePassword'
+import bgHome from '../../assets/images/background1.png'
 
 const PageWrap = (props) => {
 
@@ -21,7 +22,8 @@ const PageWrap = (props) => {
     };
 
     return (
-        <div className="menu-wrap" style={props.styleWrap}>
+        <div className="page-wrap" style={{ backgroundImage: `url(${bgHome})`, backgroundRepeat: 'no-repeat', backgroundPosition: 'center center', backgroundAttachment: 'fixed', backgroundSize: 'cover'  }}>
+            <div className="menu-wrap" style={props.styleWrap}>
             <div className="wrap-main" style={{ display: 'grid', gridTemplateColumns: 'auto auto', alignItems: 'center', justifyContent: 'flex-start', margin: '30px 50px 0' }}>
                 <span className="avatar-ui" style={{ width: '66px', height: '66px' }}>
                     <img src={avt} alt='' style={{ width: '100%', height: '100%' }} />
@@ -55,6 +57,8 @@ const PageWrap = (props) => {
                 <WrappedNormalChangePasswordForm SetisOpenModal={SetisOpenModal} {...props}/> 
             </Modal>
         </div>
+        </div>
+        
     )
 }
 
