@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useStore } from 'react-redux'
 import FormChangePassword from './formChangePassword'
 
-const WrapMenu = (props) => {
+const PageWrap = (props) => {
 
     const store = useStore()
     const dispatch = useDispatch()
@@ -58,4 +58,4 @@ const WrapMenu = (props) => {
     )
 }
 
-export default WrapMenu;
+export default PageWrap;

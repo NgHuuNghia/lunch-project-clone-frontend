@@ -7,6 +7,8 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
+    "ag-grid-community": "^22.1.1",
+    "ag-grid-react": "^22.1.1",
     "antd": "^3.26.7",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",

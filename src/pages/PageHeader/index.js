@@ -7,9 +7,11 @@ import Loading from '../../components/shared/loading'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import './index.css'
+import { useStore } from 'react-redux'
 const { Option } = Select
 
 const PageHeader = (props) => {
+    const store = useStore()
     const { data, loading, error } = useQuery(GET_ALL_SITES)
     const [sites, setSites] = useState(null)
     const LoadOnceCurrentSites = useRef(false);
@@ -46,6 +48,7 @@ const PageHeader = (props) => {
         return (<Loading />)
     }
     else {
+
         if (!LoadOnceCurrentSites.current) {
             setSites(data.sites)
             LoadOnceCurrentSites.current = true;
@@ -68,7 +71,7 @@ const PageHeader = (props) => {
                     <Menu.Item key="location-combobox" className="menu-location header-item" >
                         <Select
                             className='location-combobox'
-                            defaultValue={props.site}
+                            defaultValue={store.getState().currentUser.siteId}
                             showSearch
                             optionFilterProp="children"
                             filterOption={(input, option) =>
