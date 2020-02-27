@@ -45,7 +45,8 @@ const PageHeader = (props) => {
         return <div>page not found</div>
     }
     else if (loading) {
-        return (<Loading />)
+        // return (<Loading />) // return loading in main data
+        return null
     }
     else {
 
@@ -66,7 +67,7 @@ const PageHeader = (props) => {
                         <Link to="/"><Icon type="home" style={{ fontSize: '24px' }} /></Link>
                     </Menu.Item>
                     <Menu.Item key="logo-header" className="logo-header header-item" style={{ width: '150px' }} >
-                        <img src={logo} alt="" style={{ width: '100%', height: '100%' }} />
+                        <Link to="/"><img src={logo} alt="" style={{ width: '100%', height: '100%' }} /></Link>
                     </Menu.Item>
                     <Menu.Item key="location-combobox" className="menu-location header-item" >
                         <Select
