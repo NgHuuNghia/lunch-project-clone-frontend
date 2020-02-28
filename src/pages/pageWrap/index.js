@@ -3,7 +3,7 @@ import { Button, Icon, Modal, Form } from 'antd'
 import avt from '../../assets/images/avatar.png'
 import { Link } from 'react-router-dom'
 import { useDispatch, useStore } from 'react-redux'
-import FormChangePassword from './formChangePassword'
+import FormChangePassword from './fromChangePassword/index'
 import bgHome from '../../assets/images/background1.png'
 
 const PageWrap = (props) => {

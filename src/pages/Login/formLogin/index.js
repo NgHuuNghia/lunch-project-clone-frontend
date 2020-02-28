@@ -2,8 +2,8 @@ import { Button, Col, Form, Icon, Input, Row } from "antd";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { graphql } from 'react-apollo'
-import background from "../../assets/images/bg-lunch.jpg";
-import NotiAnimation from "../../components/shared/NotiAnimation";
+import background from "../../../assets/images/bg-lunch.jpg";
+import NotiAnimation from "../../../components/shared/NotiAnimation";
 import gql from 'graphql-tag'
 import { useDispatch } from 'react-redux'
 

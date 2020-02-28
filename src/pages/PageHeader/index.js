@@ -1,5 +1,5 @@
 import { Dropdown, Icon, Menu, Select } from 'antd'
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import avt from '../../assets/images/avatar.png'
 import logo from '../../assets/images/logo-acexis.png'
@@ -12,9 +12,13 @@ const { Option } = Select
 
 const PageHeader = (props) => {
     const store = useStore()
-    const { data, loading, error } = useQuery(GET_ALL_SITES)
+    const { data, loading,  } = useQuery(GET_ALL_SITES)
+    useEffect(() => {
+        if(data && data.sites) {
+            setSites(data.sites)
+        }
+    }, [data])
     const [sites, setSites] = useState(null)
-    const LoadOnceCurrentSites = useRef(false);
     const [locale, setLocale] = useState('VN');
     const changeSite = (value) => {
         props.setCurrentSite(value)
@@ -41,19 +45,12 @@ const PageHeader = (props) => {
             </Menu.Item>
         </Menu>
     )
-    if (error) {
-        return <div>page not found</div>
-    }
-    else if (loading) {
+ 
+    if (loading) {
         // return (<Loading />) // return loading in main data
         return null
     }
     else {
-
-        if (!LoadOnceCurrentSites.current) {
-            setSites(data.sites)
-            LoadOnceCurrentSites.current = true;
-        }
         return sites === null ? <Loading /> : (
             <div className="Header" >
                 <Menu className="header-menu" mode="horizontal" style={{ padding: '2px' }} >

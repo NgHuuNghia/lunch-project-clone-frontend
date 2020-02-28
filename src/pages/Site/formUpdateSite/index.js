@@ -2,12 +2,12 @@ import { Form, Input } from "antd";
 import React from "react";
 import { graphql } from 'react-apollo'
 import { useQuery } from '@apollo/react-hooks'
-import NotiAnimation from "../../components/shared/NotiAnimation";
+import NotiAnimation from "../../../components/shared/NotiAnimation";
 import gql from 'graphql-tag'
-import Loading from "../../components/shared/loading";
+import Loading from "../../../components/shared/loading";
 
 const FormUpdateSite = props => {
-    const { data, loading,  } = useQuery(GET_SITE, { variables: { _id: props.idEdit }, fetchPolicy: "cache-and-network" })
+    const { data, loading,  } = useQuery(GET_SITE, { variables: { _id: props.idEdit }, fetchPolicy: "network-only" })
     const handleSubmitForm = (e) => {
         e.preventDefault();
         props.form.validateFields((err, values) => {

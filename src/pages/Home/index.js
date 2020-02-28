@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon, Tabs } from 'antd'
 import { useStore } from 'react-redux'
 import { Link } from 'react-router-dom'
 import './index.css'
 const { TabPane } = Tabs
-
+const titlePage = 'Trang chủ'
 
 const Home = (props) => {
+   const [title, ] = useState(document.title);
+    useEffect(() => {
+        document.title = titlePage;
+      }, [title]);
    const store = useStore()
    const AdminLunPermision = [{ text: "Manage Menu", icon: "unordered-list" }, { text: "Manage Oder", icon: "shopping-cart" }, { text: "Manage User", icon: "user" }, { text: "Report", icon: "file-text" }, { text: "History", icon: "history" }]
    const SuperAdminLunPermision = [{ text: "Manage Site", icon: "environment" }]
@@ -65,7 +69,6 @@ const Home = (props) => {
                </div>
             </TabPane>
          </Tabs>
-
    )
 }
 

@@ -1,11 +1,10 @@
 import { Form, Input } from "antd";
 import React from "react";
 import { graphql } from 'react-apollo'
-import NotiAnimation from "../../components/shared/NotiAnimation";
+import NotiAnimation from "../../../components/shared/NotiAnimation";
 import gql from 'graphql-tag'
 
 const FormNewSite = props => {
-    console.log('props', props)
     const handleSubmitForm = (e) => {
         e.preventDefault();
         props.form.validateFields((err, values) => {
@@ -94,4 +93,4 @@ export default graphql(CREATE_SITE, {
             input: props.input
         }
     })
-})(FormNewSite);
+})(FormNewSite)

@@ -1,7 +1,7 @@
 import { Form, Input } from "antd";
 import React from "react";
 import { graphql } from 'react-apollo'
-import NotiAnimation from "../../components/shared/NotiAnimation";
+import NotiAnimation from "../../../components/shared/NotiAnimation";
 import gql from 'graphql-tag'
 import { useStore } from 'react-redux'
 

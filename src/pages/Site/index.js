@@ -1,29 +1,32 @@
-import React, { useState, useRef } from 'react'
-import { AgGridReact } from 'ag-grid-react'
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-import { AllCommunityModules } from '@ag-grid-community/all-modules';
+import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { graphql } from 'react-apollo'
+import { Select, Icon, Tooltip, Drawer, Button, Form } from 'antd';
+import { AgGridReact } from 'ag-grid-react'
+import { AllCommunityModules } from '@ag-grid-community/all-modules';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-balham.css';
 import Actions from './siteActions/index'
 import Loading from '../../components/shared/loading'
 import NotiAnimation from "../../components/shared/NotiAnimation";
-import FormNewSite from './formNewSite'
-import FormUpdateSite from './formUpdateSite'
+import FormNewSite from './formNewSite/index'
+import FormUpdateSite from './formUpdateSite/index'
 import gql from 'graphql-tag'
-import { Select, Icon, Tooltip, Drawer, Button, Form } from 'antd';
-import { useEffect } from 'react';
+const titlePage = 'Quản lí địa chỉ'
 const { Option } = Select;
 
 const Site = (props) => {
+    const [title, ] = useState(document.title);
+    useEffect(() => {
+        document.title = titlePage;
+      }, [title]);
     const [isShowDrawer, setIsShowDrawer] = useState(false)
     const [isShowDrawerUpdate, setIsShowDrawerUpdate] = useState(false)
     const [idEdit, setIdEdit] = useState(null)
     const WrappedNormalNewSiteForm = Form.create({ name: 'normal_newsite' })(FormNewSite);
     const WrappedNormalUpdateSiteForm = Form.create({ name: 'normal_updatesite' })(FormUpdateSite);
-    const { data, loading, error } = useQuery(GET_ALL_SITES, { fetchPolicy: "network-only" })
+    const { data, loading,  } = useQuery(GET_ALL_SITES, { fetchPolicy: "network-only" })
 
-    const LoadOnceCurrentSites = useRef(false);
     const [gridApi, setGridApi] = useState()
     const columnDefs = [
         { headerName: "STT", field: "id", checkboxSelection: true, maxWidth: 80, },
@@ -41,13 +44,12 @@ const Site = (props) => {
 
     const [rowData, setrowData] = useState([])
     useEffect(() => {
-        try {
+        if(data && data.sites) {
             setrowData(data.sites)
+            setrowElement({ firt: 1, last: data.sites.length < 10 ? data.sites.length : 10 })
+            setPageElement({ firt: 1, last: Math.ceil(data.sites.length / 10) })
         }
-        catch(err) {
-
-        }
-    },[data])
+    }, [data])
     const [rowElement, setrowElement] = useState({ firt: 1, last: rowData.length < 10 ? rowData.length : 10 })
     const [pageElement, setPageElement] = useState({ firt: 1, last: Math.ceil(rowData.length / 10) })
 
@@ -101,12 +103,11 @@ const Site = (props) => {
                 _id
             },
             refetchQueries: () => {
-               return [{ query: GET_ALL_SITES }]
+                return [{ query: GET_ALL_SITES }]
             },
-            awaitRefetchQueries:true
+            awaitRefetchQueries: true
 
         }).then(res => {
-            // gridApi.redrawRows()
             if (res.data.deleteSite) {
                 NotiAnimation('error', 'delete site fail', 'Xóa site thành công', 'red', 'bottomRight');
             }
@@ -116,24 +117,14 @@ const Site = (props) => {
             })
     }
     function onEdit(_id) {
-        // console.log('on edit', _id);
         setIdEdit(_id)
         setIsShowDrawerUpdate(true)
     }
 
-    if (error) {
-        return <div>page not found</div>
-    }
-    else if (loading) {
+    if (loading) {
         return (<Loading />)
     }
     else {
-        if (!LoadOnceCurrentSites.current) {
-            setrowData(data.sites)
-            setrowElement({ firt: 1, last: data.sites.length < 10 ? data.sites.length : 10 })
-            setPageElement({ firt: 1, last: Math.ceil(data.sites.length / 10) })
-            LoadOnceCurrentSites.current = true;
-        }
         return (
             <div style={{ backgroundColor: "#FFF", height: '100%' }}>
                 <div className="title-header" style={{ backgroundColor: "#F7F7F8", width: '100vw', height: '40px', boxShadow: '0 4px 2px -2px #D4D4D4', padding: '10px 50px', fontWeight: 'bold' }}> Manage Sites </div>
@@ -233,8 +224,7 @@ const Site = (props) => {
                         paginationPageSize={10}
                         getRowHeight={getRowHeight}
                         suppressCellSelection={true}
-                    >
-                    </AgGridReact>
+                    />
                 </div>
 
             </div>
