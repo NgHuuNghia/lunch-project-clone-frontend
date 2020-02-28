@@ -20,7 +20,11 @@ const FormUpdateSite = props => {
                     variables: {
                         _id: props.idEdit,
                         input
-                    }
+                    },
+                    refetchQueries: () => {
+                        return [{ query: GET_ALL_SITES }]
+                     },
+                     awaitRefetchQueries:true
                 })
                     .then(res => {
                         if (res.data.updateSite) {
@@ -87,7 +91,14 @@ const UPDATE_SITE = gql`
         updateSite(_id: $_id input: $input)
     }
 `
-
+const GET_ALL_SITES = gql`
+    query {
+        sites {
+            _id
+            name
+        }
+    }
+`
 export default graphql(UPDATE_SITE, {
     name: 'UpdateSite',
     options: props => ({

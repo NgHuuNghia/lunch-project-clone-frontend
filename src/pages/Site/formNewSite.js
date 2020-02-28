@@ -5,7 +5,7 @@ import NotiAnimation from "../../components/shared/NotiAnimation";
 import gql from 'graphql-tag'
 
 const FormNewSite = props => {
-
+    console.log('props', props)
     const handleSubmitForm = (e) => {
         e.preventDefault();
         props.form.validateFields((err, values) => {

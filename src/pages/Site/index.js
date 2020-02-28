@@ -12,6 +12,7 @@ import FormNewSite from './formNewSite'
 import FormUpdateSite from './formUpdateSite'
 import gql from 'graphql-tag'
 import { Select, Icon, Tooltip, Drawer, Button, Form } from 'antd';
+import { useEffect } from 'react';
 const { Option } = Select;
 
 const Site = (props) => {
@@ -39,6 +40,14 @@ const Site = (props) => {
     ]
 
     const [rowData, setrowData] = useState([])
+    useEffect(() => {
+        try {
+            setrowData(data.sites)
+        }
+        catch(err) {
+
+        }
+    },[data])
     const [rowElement, setrowElement] = useState({ firt: 1, last: rowData.length < 10 ? rowData.length : 10 })
     const [pageElement, setPageElement] = useState({ firt: 1, last: Math.ceil(rowData.length / 10) })
 
@@ -90,22 +99,11 @@ const Site = (props) => {
         props.DeleteSite({
             variables: {
                 _id
-            }
-            ,
+            },
             refetchQueries: () => {
-                console.log('data.sites',data.sites)
                return [{ query: GET_ALL_SITES }]
             },
             awaitRefetchQueries:true
-            ,
-            update: (cache, response) => {
-               console.log('cache',cache)
-               console.log('response',response)
-               console.log('data',data.sites)
-            },
-            onCompleted: (data) => {
-                console.log('complete',data)
-            }
 
         }).then(res => {
             // gridApi.redrawRows()
