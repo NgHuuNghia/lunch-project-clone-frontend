@@ -6,18 +6,16 @@ import { AgGridReact } from 'ag-grid-react'
 import { AllCommunityModules } from '@ag-grid-community/all-modules';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-import Actions from './siteActions/index'
+import Actions from './dishActions/index'
 import NotiAnimation from "../../../components/shared/NotiAnimation";
-import FormNewSite from '../formNewSite/index'
-import FormUpdateSite from '../formUpdateSite/index'
+import FormNewDish from '../formNewDish/index'
+import FormUpdateDish from '../formUpdateDish/index'
 const { Option } = Select;
 
-const SiteAgGrid = (props) => {
-
+const DishAgGrid = (props) => {
     const [rowData, setRowData] = useState(props.rowData)
     const [gridApi, setGridApi] = useState()
     const [idEdit, setIdEdit] = useState(null)
-
 
     useEffect(() => {
         setRowData(props.rowData)
@@ -27,8 +25,8 @@ const SiteAgGrid = (props) => {
         setPageElement({ firt: 1, last: rowData.length !== 0 ? Math.ceil(rowData.length / 10) : 1 })
     }, [rowData])
 
-    const WrappedNormalNewSiteForm = Form.create({ name: 'normal_newsite' })(FormNewSite);
-    const WrappedNormalUpdateSiteForm = Form.create({ name: 'normal_updatesite' })(FormUpdateSite);
+    const WrappedNormalNewDishForm = Form.create({ name: 'normal_newdish' })(FormNewDish);
+    const WrappedNormalUpdateDishForm = Form.create({ name: 'normal_updatedish' })(FormUpdateDish);
 
     const [isShowDrawerAdd, setIsShowDrawerAdd] = useState(false)
     const [isShowDrawerUpdate, setIsShowDrawerUpdate] = useState(false)
@@ -37,7 +35,8 @@ const SiteAgGrid = (props) => {
 
     const columnDefs = [
         { headerName: "STT", field: "id", checkboxSelection: true, maxWidth: 80, },
-        { headerName: "Site Name", field: "name", },
+        { headerName: "Dish Name", field: "name", },
+        { headerName: "public", field: "isActive", },
         {
             headerName: 'Action',
             cellRenderer: 'Actions',
@@ -64,22 +63,22 @@ const SiteAgGrid = (props) => {
     
 
     function onDelete(_id) {
-        props.DeleteSite({
+        props.DeleteDish({
             variables: {
                 _id
             },
             refetchQueries: () => {
-                return [{ query: GET_ALL_SITES }]
+                return [{ query: GET_ALL_DISHS,  variables: {shopId: props.shopId}  }]
             },
             awaitRefetchQueries: true
 
         }).then(res => {
-            if (res.data.deleteSite) {
-                NotiAnimation('error', 'delete site fail', 'Xóa site thành công', 'red', 'bottomRight');
+            if (res.data.deleteDish) {
+                NotiAnimation('error', 'delete dish fail', 'Xóa dish thành công', 'red', 'bottomRight');
             }
         })
             .catch(err => {
-                NotiAnimation('error', 'delete site fail', err.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
+                NotiAnimation('error', 'delete dish fail', err.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
             })
     }
     function onEdit(_id) {
@@ -111,7 +110,6 @@ const SiteAgGrid = (props) => {
         }
         
     }
-
     const previousPage = () => {
         const previousPageNumber = gridApi.paginationGetCurrentPage()
         gridApi.paginationGoToPreviousPage()
@@ -141,21 +139,21 @@ const SiteAgGrid = (props) => {
                 <button disabled={pageElement.firt === pageElement.last ? true : false} onClick={nextPage} style={{ margin: '0 7px', border: 'none', background: 'none', cursor: 'pointer' }}>
                     <Icon style={{ color: pageElement.firt === pageElement.last ? '#d9d9d9' : 'black' }} type="right" />
                 </button>
-                <Tooltip placement="bottom" title="add new site">
+                <Tooltip placement="bottom" title="add new dish">
                     <button className="add" onClick={() => setIsShowDrawerAdd(true)} style={{ margin: '0 50px', border: 'none', background: 'none', cursor: 'pointer', float: 'right' }}>
                         <Icon type="plus" style={{ color: 'blue', fontSize: 20 }} />
                     </button>
                 </Tooltip>
             </div>
             <Drawer
-                title="New Site"
+                title="New Dish"
                 width={600}
                 onClose={onCloseDrawer}
                 closable={false}
                 visible={isShowDrawerAdd}
                 bodyStyle={{ paddingBottom: 80 }}
             >
-                <WrappedNormalNewSiteForm onCloseDrawer={onCloseDrawer} {...props} />
+                <WrappedNormalNewDishForm shopId={props.shopId}  onCloseDrawer={onCloseDrawer} {...props} />
                 <div
                     style={{
                         position: 'absolute',
@@ -170,18 +168,18 @@ const SiteAgGrid = (props) => {
                     }}
                 >
                     <Button onClick={onCloseDrawer} style={{ marginRight: 10, background: 'none', color: 'white' }}> Hủy </Button>
-                    <Button form="formNewSite" key="submit" htmlType="submit" type="primary"> Lưu </Button>
+                    <Button form="formNewDish" key="submit" htmlType="submit" type="primary"> Lưu </Button>
                 </div>
             </Drawer>
             <Drawer
-                title="Update Site"
+                title="Update Dish"
                 width={600}
                 onClose={onCloseDrawerUpdate}
                 closable={false}
                 visible={isShowDrawerUpdate}
                 bodyStyle={{ paddingBottom: 80 }}
             >
-                <WrappedNormalUpdateSiteForm idEdit={idEdit} onCloseDrawerUpdate={onCloseDrawerUpdate} {...props} />
+                <WrappedNormalUpdateDishForm shopId={props.shopId}  idEdit={idEdit} onCloseDrawerUpdate={onCloseDrawerUpdate} {...props} />
                 <div
                     style={{
                         position: 'absolute',
@@ -196,7 +194,7 @@ const SiteAgGrid = (props) => {
                     }}
                 >
                     <Button onClick={onCloseDrawerUpdate} style={{ marginRight: 10, background: 'none', color: 'white' }}> Hủy </Button>
-                    <Button form="formUpdateSite" key="submit" htmlType="submit" type="primary"> Lưu </Button>
+                    <Button form="formUpdateDish" key="submit" htmlType="submit" type="primary"> Lưu </Button>
                 </div>
             </Drawer>
 
@@ -225,21 +223,23 @@ const SiteAgGrid = (props) => {
     )
 }
 
-
-const GET_ALL_SITES = gql`
-    query {
-        sites {
+const GET_ALL_DISHS = gql`
+    query ($shopId: String!) {
+        dishesByShop (shopId: $shopId) {
             _id
             name
+            shopId
+            isActive
         }
     }
 `
-const DELETE_SITE = gql`
-  mutation deleteSite($_id: String!) {
-    deleteSite(_id: $_id)
+
+const DELETE_DISH = gql`
+  mutation deleteDish($_id: String!) {
+    deleteDish(_id: $_id)
   }
 `
 
-export default graphql(DELETE_SITE, {
-    name: 'DeleteSite'
-})(SiteAgGrid);
+export default graphql(DELETE_DISH, {
+    name: 'DeleteDish'
+})(DishAgGrid);

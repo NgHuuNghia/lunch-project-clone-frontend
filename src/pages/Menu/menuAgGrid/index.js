@@ -6,14 +6,16 @@ import { AgGridReact } from 'ag-grid-react'
 import { AllCommunityModules } from '@ag-grid-community/all-modules';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-balham.css';
-import Actions from './siteActions/index'
+import Actions from './menuActions/index'
 import NotiAnimation from "../../../components/shared/NotiAnimation";
-import FormNewSite from '../formNewSite/index'
-import FormUpdateSite from '../formUpdateSite/index'
+import FormNewMenu from '../formNewMenu/index'
+import FormUpdateMenu from '../formUpdateMenu/index'
+import { useHistory } from 'react-router-dom';
+import { compose } from 'recompose'
 const { Option } = Select;
 
-const SiteAgGrid = (props) => {
-
+const MenuAgGrid = (props) => {
+    const history = useHistory()
     const [rowData, setRowData] = useState(props.rowData)
     const [gridApi, setGridApi] = useState()
     const [idEdit, setIdEdit] = useState(null)
@@ -27,8 +29,8 @@ const SiteAgGrid = (props) => {
         setPageElement({ firt: 1, last: rowData.length !== 0 ? Math.ceil(rowData.length / 10) : 1 })
     }, [rowData])
 
-    const WrappedNormalNewSiteForm = Form.create({ name: 'normal_newsite' })(FormNewSite);
-    const WrappedNormalUpdateSiteForm = Form.create({ name: 'normal_updatesite' })(FormUpdateSite);
+    const WrappedNormalNewMenuForm = Form.create({ name: 'normal_newmenu' })(FormNewMenu);
+    const WrappedNormalUpdateMenuForm = Form.create({ name: 'normal_updatemenu' })(FormUpdateMenu);
 
     const [isShowDrawerAdd, setIsShowDrawerAdd] = useState(false)
     const [isShowDrawerUpdate, setIsShowDrawerUpdate] = useState(false)
@@ -37,13 +39,18 @@ const SiteAgGrid = (props) => {
 
     const columnDefs = [
         { headerName: "STT", field: "id", checkboxSelection: true, maxWidth: 80, },
-        { headerName: "Site Name", field: "name", },
+        { headerName: "Menu Name", field: "name", maxWidth: 300, },
+        { headerName: "Shop ID", field: "shopId", maxWidth: 250,},
+        { headerName: "Published", field: "isPublic",maxWidth: 80, },
+        { headerName: "Active", field: "isActive", maxWidth: 80  },
         {
             headerName: 'Action',
             cellRenderer: 'Actions',
             cellRendererParams: {
                 onEdit,
-                onDelete
+                onDelete,
+                onViewListDish,
+                publicMenu
             },
             filter: false,
         }
@@ -64,22 +71,22 @@ const SiteAgGrid = (props) => {
     
 
     function onDelete(_id) {
-        props.DeleteSite({
+        props.DeleteMenu({
             variables: {
-                _id
+                id: _id
             },
             refetchQueries: () => {
-                return [{ query: GET_ALL_SITES }]
+                return [{ query: GET_ALL_MENUS,  variables: {siteId: props.currentSite}  }]
             },
             awaitRefetchQueries: true
 
         }).then(res => {
-            if (res.data.deleteSite) {
-                NotiAnimation('error', 'delete site fail', 'Xóa site thành công', 'red', 'bottomRight');
+            if (res.data.deleteMenu) {
+                NotiAnimation('sucess', 'delete menu success', 'Xóa menu thành công', 'red', 'bottomRight');
             }
         })
             .catch(err => {
-                NotiAnimation('error', 'delete site fail', err.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
+                NotiAnimation('error', 'delete menu fail', err.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
             })
     }
     function onEdit(_id) {
@@ -87,6 +94,29 @@ const SiteAgGrid = (props) => {
         setIsShowDrawerUpdate(true)
     }
 
+    function onViewListDish(_id) {
+        history.push(`/menu/detail/${_id}`)
+
+    }
+    function publicMenu(_id) {
+        props.PublishMenu({
+            variables: {
+                id: _id
+            },
+            refetchQueries: () => {
+                return [{ query: GET_ALL_MENUS,  variables: {siteId: props.currentSite}  }]
+            },
+            awaitRefetchQueries: true
+
+        }).then(res => {
+            if (res.data.publishAndUnpublishMenu) {
+                NotiAnimation('success', 'Public menu success', 'public menu thành công', 'green', 'bottomRight');
+            }
+        })
+            .catch(err => {
+                NotiAnimation('error', 'public menu fail', err.graphQLErrors.map(x => x.message)[0], 'red', 'bottomRight');
+            })
+    }
     const nextPage = () => {
         gridApi.paginationGoToNextPage()
         const nextPageNumber = gridApi.paginationGetCurrentPage() + 1
@@ -111,7 +141,6 @@ const SiteAgGrid = (props) => {
         }
         
     }
-
     const previousPage = () => {
         const previousPageNumber = gridApi.paginationGetCurrentPage()
         gridApi.paginationGoToPreviousPage()
@@ -141,21 +170,21 @@ const SiteAgGrid = (props) => {
                 <button disabled={pageElement.firt === pageElement.last ? true : false} onClick={nextPage} style={{ margin: '0 7px', border: 'none', background: 'none', cursor: 'pointer' }}>
                     <Icon style={{ color: pageElement.firt === pageElement.last ? '#d9d9d9' : 'black' }} type="right" />
                 </button>
-                <Tooltip placement="bottom" title="add new site">
+                <Tooltip placement="bottom" title="add new menu">
                     <button className="add" onClick={() => setIsShowDrawerAdd(true)} style={{ margin: '0 50px', border: 'none', background: 'none', cursor: 'pointer', float: 'right' }}>
                         <Icon type="plus" style={{ color: 'blue', fontSize: 20 }} />
                     </button>
                 </Tooltip>
             </div>
             <Drawer
-                title="New Site"
+                title="New Menu"
                 width={600}
                 onClose={onCloseDrawer}
                 closable={false}
                 visible={isShowDrawerAdd}
                 bodyStyle={{ paddingBottom: 80 }}
             >
-                <WrappedNormalNewSiteForm onCloseDrawer={onCloseDrawer} {...props} />
+                <WrappedNormalNewMenuForm currentSite={props.currentSite} onCloseDrawer={onCloseDrawer} {...props} />
                 <div
                     style={{
                         position: 'absolute',
@@ -170,18 +199,18 @@ const SiteAgGrid = (props) => {
                     }}
                 >
                     <Button onClick={onCloseDrawer} style={{ marginRight: 10, background: 'none', color: 'white' }}> Hủy </Button>
-                    <Button form="formNewSite" key="submit" htmlType="submit" type="primary"> Lưu </Button>
+                    <Button form="formNewMenu" key="submit" htmlType="submit" type="primary"> Lưu </Button>
                 </div>
             </Drawer>
             <Drawer
-                title="Update Site"
+                title="Update Menu"
                 width={600}
                 onClose={onCloseDrawerUpdate}
                 closable={false}
                 visible={isShowDrawerUpdate}
                 bodyStyle={{ paddingBottom: 80 }}
             >
-                <WrappedNormalUpdateSiteForm idEdit={idEdit} onCloseDrawerUpdate={onCloseDrawerUpdate} {...props} />
+                <WrappedNormalUpdateMenuForm currentSite={props.currentSite} idEdit={idEdit} onCloseDrawerUpdate={onCloseDrawerUpdate} {...props} />
                 <div
                     style={{
                         position: 'absolute',
@@ -196,7 +225,7 @@ const SiteAgGrid = (props) => {
                     }}
                 >
                     <Button onClick={onCloseDrawerUpdate} style={{ marginRight: 10, background: 'none', color: 'white' }}> Hủy </Button>
-                    <Button form="formUpdateSite" key="submit" htmlType="submit" type="primary"> Lưu </Button>
+                    <Button form="formUpdateMenu" key="submit" htmlType="submit" type="primary"> Lưu </Button>
                 </div>
             </Drawer>
 
@@ -226,20 +255,35 @@ const SiteAgGrid = (props) => {
 }
 
 
-const GET_ALL_SITES = gql`
-    query {
-        sites {
+const GET_ALL_MENUS = gql`
+    query ($siteId: String!) {
+        menusBySite (siteId: $siteId) {
             _id
             name
+            siteId
+            shopId
+            isActive
+            isPublic
         }
     }
 `
-const DELETE_SITE = gql`
-  mutation deleteSite($_id: String!) {
-    deleteSite(_id: $_id)
+const DELETE_MENU = gql`
+  mutation deleteMenu($id: String!) {
+    deleteMenu(id: $id)
   }
 `
 
-export default graphql(DELETE_SITE, {
-    name: 'DeleteSite'
-})(SiteAgGrid);
+const PUBLISH_MENU = gql`
+  mutation publishAndUnpublishMenu($id: String!){
+    publishAndUnpublishMenu(id: $id)
+  }
+`
+
+export default compose(
+    graphql(DELETE_MENU, {
+        name: 'DeleteMenu'
+    }),
+    graphql(PUBLISH_MENU, {
+        name: 'PublishMenu'
+    })
+)(MenuAgGrid);

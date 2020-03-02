@@ -1,4 +1,4 @@
-import { Dropdown, Icon, Menu, Select } from 'antd'
+import { Dropdown, Icon, Menu, Select, Button } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import avt from '../../assets/images/avatar.png'
@@ -6,18 +6,21 @@ import logo from '../../assets/images/logo-acexis.png'
 import Loading from '../../components/shared/loading'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { useHistory } from 'react-router-dom';
 import './index.css'
-import { useStore } from 'react-redux'
 const { Option } = Select
 
+
 const PageHeader = (props) => {
-    const store = useStore()
+
+    const history = useHistory()
     const { data, loading,  } = useQuery(GET_ALL_SITES)
     useEffect(() => {
         if(data && data.sites) {
             setSites(data.sites)
         }
     }, [data])
+
     const [sites, setSites] = useState(null)
     const [locale, setLocale] = useState('VN');
     const changeSite = (value) => {
@@ -58,7 +61,7 @@ const PageHeader = (props) => {
                         <img onClick={props.toggleWrapper} src={avt} alt="" style={{ width: '2em', height: '2em', marginBottom: '10px' }} />
                     </Menu.Item>
                     <Menu.Item key="back-button" className="back-button header-item" >
-                        <Link to="#"><Icon type="left" /></Link>
+                        <Button onClick={() => history.goBack()} style={{  border: 'none', background: 'none', cursor: 'pointer' }} ><Icon type="left" /></Button>
                     </Menu.Item>
                     <Menu.Item key="home-button" className="home-button header-item" >
                         <Link to="/"><Icon type="home" style={{ fontSize: '24px' }} /></Link>
@@ -69,7 +72,7 @@ const PageHeader = (props) => {
                     <Menu.Item key="location-combobox" className="menu-location header-item" >
                         <Select
                             className='location-combobox'
-                            defaultValue={store.getState().currentUser.siteId}
+                            defaultValue={ props.currentSite}
                             showSearch
                             optionFilterProp="children"
                             filterOption={(input, option) =>

@@ -8,6 +8,9 @@ import Login from '../pages/Login/index'
 import Home from '../pages/Home/index'
 import Register from '../pages/register/index';
 import Site from '../pages/Site/index'
+import Shop from '../pages/Shop/index'
+import Dish from '../pages/Dish/index'
+import Menu from '../pages/Menu/index'
 import { useSelector } from 'react-redux'
 import DashboardLayoutRoute from "./DashboardLayout/index";
 import NotFoundPage from '../components/error/notFoundPage/index'
@@ -24,7 +27,6 @@ function Root(props) {
 	useEffect(() => {
 		if (data && data.verifyToken) {
 			setCurrentSite(data.verifyToken.siteId)
-
 		}
 	}, [data])
 	if (error) {
@@ -41,11 +43,12 @@ function Root(props) {
 			<BrowserRouter>
 				<Switch>
 					<DashboardLayoutRoute exact key='home' path="/" component={!isAuth ? (<Redirect to="/login" />) : Home} currentSite={currentSite} setCurrentSite={setCurrentSite} />
-					<DashboardLayoutRoute exact key='site' path="/site" component={!isAuth || store.getState().currentUser.role !== 'SUPERADMIN' ? (<Redirect to="/" />) : Site} setCurrentSite={setCurrentSite} />
+					<DashboardLayoutRoute exact key='site' path="/site" component={!isAuth || store.getState().currentUser.role !== 'SUPERADMIN' ? (<Redirect to="/" />) : Site}  setCurrentSite={setCurrentSite}  />
+					<DashboardLayoutRoute exact key='shop' path="/shop" component={!isAuth || store.getState().currentUser.role !== 'ADMIN' ? (<Redirect to="/" />) : Shop} currentSite={currentSite} setCurrentSite={setCurrentSite} />
+					<DashboardLayoutRoute exact key='menu' path="/menu" component={!isAuth || store.getState().currentUser.role !== 'ADMIN' ? (<Redirect to="/" />) : Menu} currentSite={currentSite} setCurrentSite={setCurrentSite} />
+					<DashboardLayoutRoute exact key='shopDetail' path="/shop/detail/:shopId" component={!isAuth || store.getState().currentUser.role !== 'ADMIN' ? (<Redirect to="/" />) : Dish} currentSite={currentSite} setCurrentSite={setCurrentSite} />
 					<Route exact key='login' path='/login' component={() => { return !isAuth ? (<Login />) : (<Redirect to="/" />) }} />
 					<Route exact key='register' path='/register' component={() => { return !isAuth ? (<Register />) : (<Redirect to="/" />) }} />
-					{/* <Route path="/404" component={NotFoundPage} />
-                    <Redirect to="/404" /> */}
 					<Route path="*" component={NotFoundPage} />
 				</Switch>
 			</BrowserRouter>
