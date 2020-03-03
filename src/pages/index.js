@@ -11,6 +11,7 @@ import Site from '../pages/Site/index'
 import Shop from '../pages/Shop/index'
 import Dish from '../pages/Dish/index'
 import Menu from '../pages/Menu/index'
+import DishMenu from '../pages/DishMenu/index'
 import { useSelector } from 'react-redux'
 import DashboardLayoutRoute from "./DashboardLayout/index";
 import NotFoundPage from '../components/error/notFoundPage/index'
@@ -47,6 +48,7 @@ function Root(props) {
 					<DashboardLayoutRoute exact key='shop' path="/shop" component={!isAuth || store.getState().currentUser.role !== 'ADMIN' ? (<Redirect to="/" />) : Shop} currentSite={currentSite} setCurrentSite={setCurrentSite} />
 					<DashboardLayoutRoute exact key='menu' path="/menu" component={!isAuth || store.getState().currentUser.role !== 'ADMIN' ? (<Redirect to="/" />) : Menu} currentSite={currentSite} setCurrentSite={setCurrentSite} />
 					<DashboardLayoutRoute exact key='shopDetail' path="/shop/detail/:shopId" component={!isAuth || store.getState().currentUser.role !== 'ADMIN' ? (<Redirect to="/" />) : Dish} currentSite={currentSite} setCurrentSite={setCurrentSite} />
+					<DashboardLayoutRoute exact key='menuDetail' path="/menu/detail/:shopId/:menuId" component={!isAuth || store.getState().currentUser.role !== 'ADMIN' ? (<Redirect to="/" />) : DishMenu} currentSite={currentSite} setCurrentSite={setCurrentSite} />
 					<Route exact key='login' path='/login' component={() => { return !isAuth ? (<Login />) : (<Redirect to="/" />) }} />
 					<Route exact key='register' path='/register' component={() => { return !isAuth ? (<Register />) : (<Redirect to="/" />) }} />
 					<Route path="*" component={NotFoundPage} />

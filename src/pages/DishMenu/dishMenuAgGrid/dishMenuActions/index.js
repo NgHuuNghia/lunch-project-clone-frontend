@@ -4,9 +4,7 @@ import { Button, Modal, Icon } from 'antd'
 function Actions({
 	data,
 	onEdit,
-	onDelete,
-	onViewListDish,
-	publicMenu
+	onDelete
 }) {
 
 
@@ -25,11 +23,11 @@ function Actions({
 		setVisible(false)
 	};
 	return (
-		<div className="menu-actions">
+		<div className="shop-actions">
 			<Button
 				type='primary'
-				className="menu-action-button"
-				name="btnEditMenu"
+				className="shop-action-button"
+				name="btnEditShop"
 				onClick={() => {
 					onEdit(data._id)
 				}}
@@ -39,30 +37,10 @@ function Actions({
 			</Button>
 
 			<Button
-				onClick={() => {onViewListDish(data._id,data.shopId) }}
-				type='primary'
-				className="menu-action-button"
-				name="btnOpenListDish"
-				style={{ margin: '2px 10px', height: '24px', width: '100px', padding: '2px 10px' }}
-			>
-				List Dishs
-			</Button>
-
-			<Button
-				onClick={() => {publicMenu(data._id) }}
-				type='primary'
-				className="menu-action-button"
-				name="btnPublicMenu"
-				style={{ margin: '2px 10px', height: '24px', width: '100px', padding: '2px 10px' }}
-			>
-				Public Menu
-			</Button>
-
-			<Button
 				onClick={showModal}
 				type='danger'
-				className="menu-action-button"
-				name="btnDeleteMenu"
+				className="shop-action-button"
+				name="btnDeleteShop"
 				style={{ margin: '2px 10px', height: '24px', width: '70px', padding: '2px 10px' }}
 			>
 				Delete
