@@ -17,10 +17,12 @@ const Home = (props) => {
 
 
    const functionLunchUser = props.currentSite === store.getState().currentUser.siteId && store.getState().currentUser.role === 'USER' ? (
-      <div className="lunch-box" style={{ width: '180px', height: '150px', backgroundColor: 'white', margin: '10px 0' }}>
-         <span style={{ color: 'black', margin: '15px', display: 'inline-block' }}>Đặt món</span>
-         <Icon style={{ color: '#2D9CDB', fontSize: '40px', margin: '30px 0 0 120px' }} type="shopping-cart" />
-      </div>
+      <Link key="order" to='/order'>
+         <div className="lunch-box" style={{ width: '180px', height: '150px', backgroundColor: 'white', margin: '10px 0' }}>
+            <span style={{ color: 'black', margin: '15px', display: 'inline-block' }}>Đặt món</span>
+            <Icon style={{ color: '#2D9CDB', fontSize: '40px', margin: '30px 0 0 120px' }} type="shopping-cart" />
+         </div>
+      </Link>
    ) : null
    const functionHrmUser = props.currentSite === store.getState().currentUser.siteId && store.getState().currentUser.role === 'USER' ? (
       <div className="hrm-box" style={{ width: '180px', height: '150px', backgroundColor: 'white', margin: '10px 0' }}>
